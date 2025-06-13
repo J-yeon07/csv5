@@ -12,9 +12,9 @@ if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
 
         # 3. 필요한 열이 존재하는지 확인
-        required_columns = {'노선명', '역명', '승차승객수', '하차승객수'}
+        required_columns = {'노선명', '역명', '승차총승객수', '하차총승객수'}
         if not required_columns.issubset(df.columns):
-            st.error("❗ CSV 파일에 필요한 열이 없습니다. '노선명', '역명', '승차승객수', '하차승객수' 열이 모두 있어야 합니다.")
+            st.error("❗ CSV 파일에 필요한 열이 없습니다. '노선명', '역명', '승차총승객수', '하차총승객수' 열이 모두 있어야 합니다.")
         else:
             # 4. 노선명 선택
             line_options = sorted(df["노선명"].unique())
@@ -28,8 +28,8 @@ if uploaded_file is not None:
             filtered_df = df[(df["노선명"] == selected_line) & (df["역명"] == selected_station)]
 
             # 7. 승하차 인원 합계 계산
-            total_boarding = filtered_df["승차승객수"].sum()
-            total_alighting = filtered_df["하차승객수"].sum()
+            total_boarding = filtered_df["승차총승객수"].sum()
+            total_alighting = filtered_df["하차총승객수"].sum()
 
             # 8. 결과 출력
             st.subheader(f"📊 {selected_line} {selected_station}역 총 이용자 수")
